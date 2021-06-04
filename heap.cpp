@@ -1,6 +1,5 @@
 #include<bits/stdc++.h>
 using namespace std;
-//this is jali heap
 class myHeap
 {
     vector<int> v;
