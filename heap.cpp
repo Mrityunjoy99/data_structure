@@ -127,6 +127,9 @@ int main()
     h.insert(5);
     h.pop();
     h.insert(9);
+    h.pop();
+    h.pop();
+    h.insert(5);
     // h.printHeap();
     // h.show();
 

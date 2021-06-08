@@ -1,38 +1,89 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int max(int a,int b,int c)
+void DFSUtil(vector<vector<char>>& grid,int i,int j)
 {
-    return max(a,max(b,c));
-}
-int longestSubsequence(int n, int a[])
-{
-    vector<int> dp(n,1);
-    for(int i=0;i<n;i++)
+    // unordered_set<pair<int,int>> vis;
+    int A = grid.size();
+    int B = grid[0].size();
+    queue<pair<int,int>> q;
+    q.push({i,j});
+    grid[i][j]='0';
+    pair<int,int> p;
+    int x,y;
+    while(!q.empty())
     {
-        for(int j=0;j<i;j++)
+        p = q.front();
+        q.pop();
+        x = p.first;
+        y = p.second;
+        if((x-1>=0&&y-1>=0)&&grid[x-1][y-1]=='1')
         {
-            if((a[i]>a[j])&&(dp[i]<dp[j]+1))
-                dp[i] = dp[j]+1;
+            q.push({x-1,y-1});
+            grid[x-1][y-1] ='0';
+        }
+        if((x-1>=0)&&grid[x-1][y]=='1')
+        {
+            q.push({x-1,y});
+            grid[x-1][y]=='0';
+        }
+        if((x-1>=0&&y+1<B)&&grid[x-1][y+1]=='1')
+        {
+            q.push({x-1,y+1});
+            grid[x-1][y+1]=='0';
+        }
+        if((y+1<B)&&grid[x][y+1]=='1')
+        {
+            q.push({x,y+1});
+            grid[x][y+1]=='0';
+        }
+        if((x+1<A&&y+1<B)&&grid[x+1][y+1]=='1')
+        {
+            q.push({x+1,y+1});
+            grid[x+1][y+1]=='0';
+        }
+        if((x+1<A)&&grid[x+1][y]=='1')
+        {
+            q.push({x+1,y});
+            grid[x+1][y]=='0';
+        }
+        if((x+1<A&&y-1>=0)&&grid[x+1][y-1]=='1')
+        {
+            q.push({x+1,y-1});
+            grid[x+1][y-1]=='0';
+        }
+        if((y-1>=0)&&grid[x][y-1]=='1')
+        {
+            q.push({x,y-1});
+            grid[x][y-1]=='0';
         }
     }
-    int ans = dp[0];
-    for(int i:dp)
-    {
-        cout<<i<<"\t";
-        ans = max(ans,i);
-    }
-    cout<<endl;
-    for(int i=0;i<n;i++)
-        cout<<a[i]<<"\t";
-    cout<<endl;
-    return ans;
-
 }
-
+int numIslands(vector<vector<char>>& grid) 
+{
+    int count=0;
+    
+    for(int i=0;i<grid.size();i++)
+    {
+        for(int j=0;j<grid[i].size();j++)
+        {
+            if(grid[i][j]=='1')
+            {
+                count++;
+                DFSUtil(grid,i,j);
+            }
+        }
+    }
+    return count;
+    // Code here
+}
 int main()
 {
-    int n = 16, a[] = {0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15};
-    // int n = 6, a[] = {5,8,3,7,9,1};
-    cout<<"\n\nAns : "<<longestSubsequence(n,a)<<endl;
+    vector<vector<char>> grid = {
+        {'0','1'},
+        {'1','0'},
+        {'1','0'},
+        {'1','0'}
+    };
+    cout<<numIslands(grid)<<endl;
 }
