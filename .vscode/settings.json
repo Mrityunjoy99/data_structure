@@ -1,8 +1,11 @@
 {
+    "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
         "*.c": "cpp",
         "*.html": "html",
+        "new": "cpp",
+        "iostream": "cpp",
         "ostream": "cpp",
-        "iosfwd": "cpp"
+        "bitset": "cpp"
     }
 }

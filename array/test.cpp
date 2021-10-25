@@ -1,55 +1,42 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-void printDP(vector<vector<int>> &dp)
+long long getMaxArea(long long arr[], int n)
 {
-    for(auto r:dp)
-    {
-        for(auto i:r)
-            cout << i << "\t";
-        cout << endl;
-    }
+	stack<long long> st;
+	vector<long long> left(n), right(n);
+	for (int i = 0; i < n; i++)
+	{
+		cout << i << " : ";
+		while ((!st.empty()) && (arr[st.top()] > arr[i]))
+			st.pop();
+		cout <<"after while, ";
+		left[i] = (st.empty()) ? 0 : (st.top() + 1);
+		cout << "after left,";
+		st.push(i);
+		cout << "after push ";
+	}
+	while (!st.empty())
+		st.pop();
+	for (int i = n - 1; i >= 0; i--)
+	{
+		while ((!st.empty()) && (arr[st.top()] > arr[i]))
+			st.pop();
+		right[i] = st.empty() ? n - 1 : (st.top() - 1);
+		st.push(i);
+	}
+	long long ans = 0;
+	for (int i = 0; i < n; i++)
+	{
+		ans = (long long)max(ans, ((right[i] - left[i] + 1) * arr[i]));
+	}
+	return ans;
+	// Your code here
 }
-
-int checkExhists(vector<string> &dict,string str)
-{
-    unordered_set<string> fastDict;
-    for(string words:dict)
-        fastDict.insert(words);
-
-    int l = str.length();
-    cout << l << endl;
-    vector<vector<int>> dp(l + 1, vector<int>(l + 1, 0));
-    // int len = 1;
-    for (int len = 0; len < l; len++)
-    {
-        for (int i = 0; i + len < l;i++)
-        {
-            if(fastDict.find(str.substr(i,len+1))!=fastDict.end())
-                dp[i][i + len] = 1;
-            else
-            {
-                for (int k = 0; k < len;k++)
-                {
-                    if((dp[i][i+k]==1)&&(dp[i+k+1][i+len]==1))
-                    {
-                        dp[i][i + len] = 1;
-                        break;
-                    }
-                }
-                if(dp[i][i + len] != 1)
-                    dp[i][i + len] = -1;
-            }
-        }
-    }
-    printDP(dp);
-    return dp[0][l - 1];
-}
-
 
 int main()
 {
-    vector<string> dict = {"i", "a","am", "x","axe"};
-    string str = "iamax";
-    cout << checkExhists(dict, str) << endl;
+	long long hist[] = {6, 2, 5, 4, 5, 1, 6};
+	int n = 7;
+	cout << getMaxArea(hist, n) << endl;
 }

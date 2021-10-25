@@ -1,18 +1,40 @@
-#include<bits/stdc++.h>
+#include<iostream>
 using namespace std;
+
+class A
+{
+int x;
+public:
+A(){cout<<"A()"<<endl;}
+A(int i) { x = i;
+         cout<<"A(n)"<<endl;
+         }
+void print() { cout <<"x = "<< x<<endl; }
+};
+
+class B: virtual public A
+{
+public:
+B():A(10) { cout<<"B()"<<endl; }
+B(int x):A(x) { cout<<"B(n)"<<endl; }
+};
+
+class C: virtual public A
+{
+public:
+C():A(10) { cout<<"C()"<<endl; }
+C(int x):A(x) { cout<<"C(n)"<<endl; }
+};
+
+class D: public B, public C {
+  public:
+  D():B(),C(){ cout<<"D()"<<endl; }
+  D(int x):B(x),C(x){ cout<<"D(n)"<<endl; }
+};
 
 int main()
 {
-    // int(*p)[5];
-    // int arr[2][5] = {{2, 3, 4, 5, 6}, {7, 8, 9, 10, 11}};
-    // p = arr;
-    // cout << (*(p+1))[1] << endl;
-
-    int a = 10,b=5;
-    // int const *p;
-    const int *p;
-    p = &a;
-    // p = &b;
-    a = 6;
-    cout << *p << endl;
+	D *d = new D(5);
+	d->print();
+	return 0;
 }
